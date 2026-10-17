@@ -1,0 +1,11 @@
+.env*
+!.env.example
+.dev.vars*
+.wrangler/
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+node_modules/
+data/api_cache/
+
