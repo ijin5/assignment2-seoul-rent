@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light;
+  --ink: #18232e;
+  --muted: #657380;
+  --line: #e2e8e8;
+  --paper: #f3f6f3;
+  --card: #ffffff;
+  --green: #167b64;
+  --green-dark: #105744;
+  --mint: #dff2e9;
+  --orange: #e19a4c;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); }
+.hero { background: #102f35; color: #fff; padding: 48px 24px 56px; }
+.hero-inner, main, footer { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.eyebrow { margin: 0 0 10px; color: #73c6a9; font-size: 11px; font-weight: 800; letter-spacing: .15em; }
+.hero h1 { margin: 0; font-size: clamp(30px, 5vw, 48px); letter-spacing: -.04em; }
+.hero-copy { max-width: 600px; margin: 14px 0 0; color: #c5d6d3; font-size: 16px; line-height: 1.7; }
+main { padding: 26px 0 36px; }
+.panel { margin: 0 0 18px; padding: 26px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); box-shadow: 0 8px 28px rgba(18, 54, 48, .035); }
+.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.panel-heading h2, .method-note h2 { margin: 0; font-size: 20px; letter-spacing: -.025em; }
+.controls .panel-heading { margin-bottom: 24px; }
+.primary-button { border: 0; border-radius: 10px; padding: 13px 18px; background: var(--green); color: white; font: inherit; font-weight: 750; cursor: pointer; }
+.primary-button:hover { background: var(--green-dark); }
+.primary-button:disabled { opacity: .55; cursor: wait; }
+.control-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.control-grid label { display: flex; flex-direction: column; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 700; }
+select, input { width: 100%; height: 44px; padding: 0 12px; border: 1px solid #d4dfdc; border-radius: 9px; background: white; color: var(--ink); font: inherit; font-size: 14px; }
+.rate-input { position: relative; }
+.rate-input input { padding-right: 34px; }
+.rate-input span { position: absolute; top: 13px; right: 13px; color: var(--muted); font-size: 14px; }
+.status-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 18px; }
+.status-row p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.source-tag { flex: 0 0 auto; padding: 7px 9px; border-radius: 100px; background: var(--mint); color: var(--green-dark); font-size: 11px; font-weight: 750; }
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 0 18px; }
+.summary-card { min-height: 132px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 15px; background: #fff; }
+.summary-label, .summary-unit { display: block; color: var(--muted); font-size: 12px; }
+.summary-card strong { display: block; margin: 12px 0 3px; color: var(--green-dark); font-size: clamp(23px, 3vw, 32px); letter-spacing: -.04em; }
+.summary-card strong.top-area { overflow: hidden; color: var(--ink); font-size: clamp(17px, 2.2vw, 24px); text-overflow: ellipsis; white-space: nowrap; }
+.map-layout { display: grid; grid-template-columns: minmax(0, 1fr) 180px; align-items: center; gap: 22px; }
+.map-canvas { position: relative; min-height: 330px; }
+#dongMap { display: block; width: min(100%, 610px); height: auto; max-height: 620px; margin: 0 auto; }
+.map-canvas .empty-state { position: absolute; top: 50%; left: 50%; width: 100%; margin: 0; transform: translate(-50%, -50%); pointer-events: none; }
+.dong-shape { stroke: #fff; stroke-width: .65; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.map-legend { align-self: center; color: var(--muted); font-size: 12px; }
+.map-legend strong { display: block; margin-bottom: 10px; color: var(--ink); font-size: 13px; }
+.legend-gradient { height: 12px; border-radius: 20px; background: linear-gradient(90deg, #e0f2e9, #105744); }
+.legend-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+.map-legend p { margin-top: 16px; line-height: 1.6; }
+.map-coverage { color: var(--green-dark); font-weight: 700; }
+.chart-heading { margin-bottom: 20px; }
+.chart-unit { color: var(--muted); font-size: 12px; }
+.region-bars { display: flex; flex-direction: column; gap: 13px; }
+.bar-row { display: grid; grid-template-columns: minmax(112px, 180px) minmax(80px, 1fr) 92px; align-items: center; gap: 13px; }
+.bar-label { overflow: hidden; color: #374651; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { height: 12px; overflow: hidden; border-radius: 99px; background: #edf2ef; }
+.bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #71c09d, #167b64); }
+.bar-value { color: var(--green-dark); font-size: 12px; font-weight: 800; text-align: right; }
+.trend-wrap { position: relative; min-height: 260px; }
+#trendChart { display: block; width: 100%; height: 260px; overflow: visible; }
+.trend-labels { display: flex; justify-content: space-between; padding: 0 18px; color: var(--muted); font-size: 11px; }
+.chart-grid-line { stroke: #e8eeeb; stroke-width: 1; }
+.chart-line { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.chart-dot { fill: white; stroke: var(--green); stroke-width: 3; }
+.chart-y-label { fill: #74827f; font-size: 11px; }
+.empty-state { margin: 24px 0; color: #8a9694; font-size: 13px; text-align: center; }
+.method-note { padding: 20px 4px 4px; color: var(--muted); }
+.method-note h2 { margin-bottom: 10px; color: var(--ink); font-size: 15px; }
+.method-note p { margin: 7px 0; font-size: 12px; line-height: 1.7; }
+.method-note .disclosure { color: #79542f; }
+footer { padding: 0 0 28px; color: #82908d; font-size: 11px; }
+@media (max-width: 760px) {
+  .hero { padding: 36px 20px 42px; }
+  .hero-inner, main, footer { width: min(100% - 28px, 600px); }
+  .panel { padding: 20px 16px; }
+  .control-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel-heading { align-items: flex-start; }
+  .controls .panel-heading { flex-direction: column; }
+  .primary-button { width: 100%; }
+  .summary-grid { grid-template-columns: 1fr; gap: 9px; }
+  .summary-card { min-height: 100px; }
+  .summary-card strong { margin: 8px 0 2px; }
+  .status-row { align-items: flex-start; flex-direction: column; gap: 10px; }
+  .chart-heading { flex-direction: column; gap: 8px; }
+  .map-layout { grid-template-columns: 1fr; gap: 6px; }
+  .map-canvas { min-height: 240px; }
+  #dongMap { max-height: 460px; }
+  .map-legend { width: min(100%, 320px); margin: 0 auto; }
+  .bar-row { grid-template-columns: 95px minmax(45px, 1fr) 75px; gap: 8px; }
+  .bar-label { font-size: 11px; }
+  .bar-value { font-size: 11px; }
+  #trendChart { height: 210px; }
+}
+
