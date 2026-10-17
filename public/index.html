@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="서울시 전월세 실거래를 전세 환산보증금으로 비교합니다.">
+  <title>서울 전월세 지역 비교</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">SEOUL RENTAL DATA</p>
+      <h1>서울 전월세 지역 비교</h1>
+      <p class="hero-copy">월세를 전세 환산보증금으로 바꿔 지역별 실거래 수준을 살펴봅니다.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel controls" aria-labelledby="controls-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">조건 설정</p>
+          <h2 id="controls-title">비교할 거래를 선택하세요</h2>
+        </div>
+        <button id="loadButton" class="primary-button" type="button">서울시 자료 다시 불러오기</button>
+      </div>
+
+      <div class="control-grid">
+        <label>
+          <span>접수연도</span>
+          <select id="yearSelect"></select>
+        </label>
+        <label>
+          <span>지역 필터</span>
+          <select id="guSelect">
+            <option value="ALL" selected>서울 전체</option>
+            <option value="11110">종로구</option>
+            <option value="11140">중구</option>
+            <option value="11170">용산구</option>
+            <option value="11200">성동구</option>
+            <option value="11215">광진구</option>
+            <option value="11230">동대문구</option>
+            <option value="11260">중랑구</option>
+            <option value="11290">성북구</option>
+            <option value="11305">강북구</option>
+            <option value="11320">도봉구</option>
+            <option value="11350">노원구</option>
+            <option value="11380">은평구</option>
+            <option value="11410">서대문구</option>
+            <option value="11440">마포구</option>
+            <option value="11470">양천구</option>
+            <option value="11500">강서구</option>
+            <option value="11530">구로구</option>
+            <option value="11545">금천구</option>
+            <option value="11560">영등포구</option>
+            <option value="11590">동작구</option>
+            <option value="11620">관악구</option>
+            <option value="11650">서초구</option>
+            <option value="11680">강남구</option>
+            <option value="11710">송파구</option>
+            <option value="11740">강동구</option>
+          </select>
+        </label>
+        <label>
+          <span>건물 용도</span>
+          <select id="buildingSelect">
+            <option value="전체">전체</option>
+            <option value="아파트">아파트</option>
+            <option value="연립다세대">연립·다세대</option>
+            <option value="단독다가구">단독·다가구</option>
+            <option value="오피스텔">오피스텔</option>
+          </select>
+        </label>
+        <label>
+          <span>월세 전환율</span>
+          <div class="rate-input">
+            <input id="rateInput" type="number" min="0.1" max="20" step="0.1" value="5.0">
+            <span>%</span>
+          </div>
+        </label>
+      </div>
+      <div class="status-row">
+        <p id="status" role="status" aria-live="polite">저장된 요약 지도를 불러오고 있습니다.</p>
+        <span class="source-tag">서울 열린데이터광장 API</span>
+      </div>
+    </section>
+
+    <section class="summary-grid" aria-label="요약 통계">
+      <article class="summary-card">
+        <span class="summary-label">분석 거래</span>
+        <strong id="countValue">—</strong>
+        <span class="summary-unit">건</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">전체 지역 중앙값</span>
+        <strong id="medianValue">—</strong>
+        <span class="summary-unit">만원/㎡</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">가장 높은 지역</span>
+        <strong id="topAreaValue" class="top-area">—</strong>
+        <span id="topAreaUnit" class="summary-unit">만원/㎡</span>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading chart-heading">
+        <div>
+          <p class="eyebrow">서울 전체 법정동 지도</p>
+          <h2>동별 전세 환산보증금 중앙값</h2>
+        </div>
+        <span class="chart-unit">만원/㎡ · 2026년 9월 법정동 경계</span>
+      </div>
+      <div class="map-layout">
+        <div class="map-canvas">
+          <svg id="dongMap" viewBox="0 0 680 700" role="img" aria-label="서울시 법정동별 전세 환산보증금 지도"></svg>
+          <p id="mapEmpty" class="empty-state">자료를 불러오면 법정동별 지도가 표시됩니다.</p>
+        </div>
+        <div class="map-legend" aria-label="지도 범례">
+          <strong>거래별 중앙값</strong>
+          <div class="legend-gradient"></div>
+          <div class="legend-labels"><span>낮음</span><span>높음</span></div>
+          <p>자료가 없는 동은 회색으로 표시됩니다.</p>
+          <p id="mapCoverage" class="map-coverage"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading chart-heading">
+        <div>
+          <p class="eyebrow">지역별 비교</p>
+          <h2>전세 환산보증금 중앙값</h2>
+        </div>
+        <span class="chart-unit">만원/㎡ · 상위 20개 지역</span>
+      </div>
+      <div id="regionBars" class="region-bars">
+        <p class="empty-state">자료를 불러오면 지역별 비교가 표시됩니다.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading chart-heading">
+        <div>
+          <p class="eyebrow">계약 시점</p>
+          <h2>월별 전세 환산보증금</h2>
+        </div>
+        <span class="chart-unit">실제 계약일 기준 중앙값</span>
+      </div>
+      <div class="trend-wrap">
+        <svg id="trendChart" viewBox="0 0 900 280" role="img" aria-label="월별 전세 환산보증금 중앙값 추이"></svg>
+        <div id="trendLabels" class="trend-labels"></div>
+        <p id="trendEmpty" class="empty-state">자료를 불러오면 월별 추이가 표시됩니다.</p>
+      </div>
+    </section>
+
+    <section class="method-note">
+      <h2>계산 방법과 자료 범위</h2>
+      <p>전세 환산보증금 = 보증금 + 월세 × 12 ÷ 전환율입니다. 지역별 수치는 거래별 환산보증금을 전용면적으로 나눈 뒤 중앙값을 계산합니다. 전환율과 건물 용도를 바꾸면 결과도 다시 계산됩니다.</p>
+      <p>접수연도는 신고가 접수된 연도이고, 월별 추이는 실제 계약일 기준입니다. 처음에는 저장된 2026년 요약 지도를 표시하고 서울시 API 자료를 뒤에서 갱신합니다. 서울시 API는 최근 3개 접수연도 자료를 제공하며 하루 1회 갱신됩니다. 거래 신고와 정정 시점에 따라 최신 거래 반영 시차가 있을 수 있습니다.</p>
+      <p>지도와 막대그래프는 거래 자료의 자치구명과 법정동명을 기준으로 비교합니다. 지도에는 서울 법정동 경계 467개를 표시하며, 해당 경계는 2026년 9월 자료입니다. 경계 자료와 거래 자료 사이의 이름이 맞지 않는 지역은 지도에서 자료 없음으로 표시합니다.</p>
+      <p class="disclosure">서울시 API 호출은 서버에서 처리합니다. 브라우저에는 API 키가 전달되지 않습니다. 서울시 API 연결 구간은 HTTP로 제공되어 전송 구간의 암호화가 적용되지 않습니다.</p>
+    </section>
+  </main>
+  <footer>과제 2 · 서울시 전월세 실거래 지역 비교</footer>
+  <script src="/app.js" defer></script>
+</body>
+</html>
+
